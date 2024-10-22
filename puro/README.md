@@ -15,6 +15,7 @@ With Puro you can:
 Puro is distributed as a precompiled executable (you do not need Dart installed), see the quick installation
 instructions at https://puro.dev/
 
+
 ## Quick start
 
 Puro uses the concept of "environments" to manage Flutter versions, these can either be tied to a specific version /
