@@ -22,7 +22,7 @@ class EnginePrepareCommand extends PuroCommand {
     argParser.addOption(
       'fork',
       help:
-          'The origin to use when cloning the engine, puro will set the upstream automatically.',
+          'The origin to use when cloning the engine, puro2 will set the upstream automatically.',
       valueHelp: 'url',
     );
     argParser.addFlag(

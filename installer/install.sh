@@ -5,11 +5,13 @@ if [ -z "${PURO_ROOT-}" ]; then
 fi
 
 if [ -z "${PURO_VERSION-}" ]; then
-  PURO_VERSION="master"
+  RELEASES_URL="https://github.com/phntmxyz/puro2/releases/latest/download"
+else
+  RELEASES_URL="https://github.com/phntmxyz/puro2/releases/download/${PURO_VERSION}"
 fi
 
 PURO_BIN="$PURO_ROOT/bin"
-PURO_EXE="$PURO_BIN/puro.new"
+PURO_EXE="$PURO_BIN/puro2.new"
 
 is_sourced() {
   if [ -n "$ZSH_VERSION" ]; then
@@ -33,12 +35,12 @@ OS="$(uname -s)"
 ARCH="$(uname -m)"
 if [ "$OS" = 'Darwin' ]; then
   if [ "$ARCH" = 'arm64' ]; then
-    DOWNLOAD_URL="https://puro.dev/builds/${PURO_VERSION}/darwin-arm64/puro"
+    DOWNLOAD_URL="$RELEASES_URL/puro2-darwin-arm64"
   else
-    DOWNLOAD_URL="https://puro.dev/builds/${PURO_VERSION}/darwin-x64/puro"
+    DOWNLOAD_URL="$RELEASES_URL/puro2-darwin-x64"
   fi
 elif [ "$OS" = 'Linux' ]; then
-  DOWNLOAD_URL="https://puro.dev/builds/${PURO_VERSION}/linux-x64/puro"
+  DOWNLOAD_URL="$RELEASES_URL/puro2-linux-x64"
 else
   >&2 echo "Error: Unknown OS: $OS"
   $ret 1
@@ -58,10 +60,10 @@ command -v curl > /dev/null 2>&1 || {
 }
 
 mkdir -p "$PURO_BIN"
-curl -f --retry 3 --output "$PURO_EXE" "$DOWNLOAD_URL" || {
+curl -fL --retry 3 --output "$PURO_EXE" "$DOWNLOAD_URL" || {
   >&2 echo "Error downloading $DOWNLOAD_URL"
   $ret $?
 }
 chmod +x "$PURO_EXE" || $ret $?
 
-"$PURO_EXE" install-puro --promote
+"$PURO_EXE" install-puro2 --promote

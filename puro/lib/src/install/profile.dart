@@ -70,7 +70,7 @@ Future<CommandMessage?> detectExternalFlutterInstallations({
     return CommandMessage.format(
       (format) =>
           'Other Flutter or Dart installations detected\n'
-          'Puro recommends removing the following from your PATH:\n'
+          'Puro2 recommends removing the following from your PATH:\n'
           '${offending.map((e) => '${format.color('*', bold: true, foregroundColor: Ansi8BitColor.red)} $e').join('\n')}',
       type: CompletionType.alert,
     );

@@ -4,8 +4,8 @@
 
 # Conventional directory for build outputs.
 build/
-bin/puro
-bin/puro.exe
+bin/puro2
+bin/puro2.exe
 temp_ast_gen
 
 # Omit committing pubspec.lock for library packages; see

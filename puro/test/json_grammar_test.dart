@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:puro/src/json_edit/element.dart';
-import 'package:puro/src/json_edit/grammar.dart';
+import 'package:puro2/src/json_edit/element.dart';
+import 'package:puro2/src/json_edit/grammar.dart';
 import 'package:test/test.dart';
 
 void main() {

@@ -77,7 +77,7 @@ Future<void> installEnvShims({
         '$bashShimHeader\n'
         'export PURO_FLUTTER_BIN="\$(cd "\${PROG_NAME%/*}" ; pwd -P)"\n'
         'PURO_BIN="\$PURO_FLUTTER_BIN/../../../../bin"\n' // Backing out of envs/<name>/flutter/bin
-        '"\$PURO_BIN/puro" dart "\$@"\n',
+        '"\$PURO_BIN/puro2" dart "\$@"\n',
   );
   await writePassiveAtomic(
     scope: scope,
@@ -86,7 +86,7 @@ Future<void> installEnvShims({
         '$bashShimHeader\n'
         'export PURO_FLUTTER_BIN="\$(cd "\${PROG_NAME%/*}" ; pwd -P)"\n'
         'PURO_BIN="\$PURO_FLUTTER_BIN/../../../../bin"\n' // Backing out of envs/<name>/flutter/bin
-        '"\$PURO_BIN/puro" flutter "\$@"\n',
+        '"\$PURO_BIN/puro2" flutter "\$@"\n',
   );
 
   if (!Platform.isWindows) {
@@ -105,7 +105,7 @@ Future<void> installEnvShims({
         'SETLOCAL ENABLEDELAYEDEXPANSION\n'
         'FOR %%i IN ("%~dp0.") DO SET PURO_FLUTTER_BIN=%%~fi\n'
         'SET PURO_BIN=%PURO_FLUTTER_BIN%\\..\\..\\..\\..\\bin\n'
-        '"%PURO_BIN%\\puro" dart %* & exit /B !ERRORLEVEL!\n',
+        '"%PURO_BIN%\\puro2" dart %* & exit /B !ERRORLEVEL!\n',
   );
   await writePassiveAtomic(
     scope: scope,
@@ -115,7 +115,7 @@ Future<void> installEnvShims({
         'SETLOCAL ENABLEDELAYEDEXPANSION\n'
         'FOR %%i IN ("%~dp0.") DO SET PURO_FLUTTER_BIN=%%~fi\n'
         'SET PURO_BIN=%PURO_FLUTTER_BIN%\\..\\..\\..\\..\\bin\n'
-        '"%PURO_BIN%\\puro" flutter %* & exit /B !ERRORLEVEL!\n',
+        '"%PURO_BIN%\\puro2" flutter %* & exit /B !ERRORLEVEL!\n',
   );
 
   final assumeUnchanged = _binFiles.followedBy(_sharedScripts).toList();

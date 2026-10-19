@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:pub_semver/pub_semver.dart';
 
 import '../command.dart';
@@ -7,7 +5,6 @@ import '../command_result.dart';
 import '../config.dart';
 import '../http.dart';
 import '../install/upgrade.dart';
-import '../process.dart';
 import '../terminal.dart';
 import '../version.dart';
 
@@ -17,7 +14,7 @@ class PuroUpgradeCommand extends PuroCommand {
       'force',
       hide: true,
       help:
-          'Installs a new puro executable even if it wont replace an existing one',
+          'Installs a new puro2 executable even if it wont replace an existing one',
       negatable: false,
     );
     argParser.addFlag(
@@ -27,16 +24,16 @@ class PuroUpgradeCommand extends PuroCommand {
   }
 
   @override
-  final name = 'upgrade-puro';
+  final name = 'upgrade-puro2';
 
   @override
-  List<String> get aliases => ['update-puro'];
+  List<String> get aliases => ['update-puro2', 'upgrade-puro', 'update-puro'];
 
   @override
   String? get argumentUsage => '[version]';
 
   @override
-  final description = 'Upgrades the puro tool to a new version';
+  final description = 'Upgrades the puro2 tool to a new version';
 
   @override
   bool get allowUpdateCheck => false;
@@ -50,66 +47,33 @@ class PuroUpgradeCommand extends PuroCommand {
     final currentVersion = puroVersion.semver;
     var targetVersionString = unwrapSingleOptionalArgument();
 
-    if (puroVersion.type == PuroInstallationType.pub) {
-      final result = await runProcess(scope, Platform.resolvedExecutable, [
-        'pub',
-        'global',
-        'activate',
-        'puro',
-      ]);
-      if (result.exitCode == 0) {
-        final stdout = result.stdout as String;
-        if (stdout.contains('already activated at newest available version')) {
-          return BasicMessageResult('Puro is up to date with $currentVersion');
-        } else {
-          return BasicMessageResult('Upgraded puro to latest pub version');
-        }
-      } else {
-        return BasicMessageResult(
-          '`dart pub global activate puro` failed with exit code ${result.exitCode}\n${result.stderr}'
-              .trim(),
-          success: false,
-        );
-      }
-    } else if (puroVersion.type != PuroInstallationType.distribution &&
-        !force) {
+    if (puroVersion.type != PuroInstallationType.distribution && !force) {
       return BasicMessageResult(
         "Can't upgrade: ${puroVersion.type.description}",
         success: false,
       );
     }
 
-    if (targetVersionString == 'master') {
-      final exitCode = await upgradePuro(
-        scope: scope,
-        targetVersion: 'master',
-        path: argResults!.wasParsed('path')
-            ? argResults!['path'] as bool
-            : null,
-      );
-      await runner.exitPuro(exitCode);
-    }
-
     final Version targetVersion;
     if (targetVersionString == null) {
-      final latestVersionResponse = await http.get(
-        config.puroBuildsUrl.append(path: 'latest'),
-      );
+      final latestVersionResponse = await http.get(config.puroLatestVersionUrl);
       HttpException.ensureSuccess(latestVersionResponse);
       targetVersionString = latestVersionResponse.body.trim();
       targetVersion = Version.parse(targetVersionString);
       if (currentVersion == targetVersion && !force) {
-        return BasicMessageResult('Puro is up to date with $targetVersion');
+        return BasicMessageResult('Puro2 is up to date with $targetVersion');
       } else if (currentVersion > targetVersion && !force) {
         return BasicMessageResult(
-          'Puro is a newer version $currentVersion than the available $targetVersion',
+          'Puro2 is a newer version $currentVersion than the available $targetVersion',
           type: CompletionType.indeterminate,
         );
       }
     } else {
       targetVersion = Version.parse(targetVersionString);
       if (currentVersion == targetVersion && !force) {
-        return BasicMessageResult('Puro is the desired version $targetVersion');
+        return BasicMessageResult(
+          'Puro2 is the desired version $targetVersion',
+        );
       }
     }
 

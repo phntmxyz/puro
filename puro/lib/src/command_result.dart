@@ -37,7 +37,7 @@ class CommandErrorResult extends CommandResult {
       CommandMessage('$exception\n$stackTrace'),
       CommandMessage(
         [
-          'Puro crashed! Please file an issue at https://github.com/pingbird/puro',
+          'Puro2 crashed! Please file an issue at https://github.com/phntmxyz/puro2/issues',
           if (logLevel != null && logLevel! < 4)
             'Consider running the command with a higher log level: `--log-level=4`',
         ].join('\n'),

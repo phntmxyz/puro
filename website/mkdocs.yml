@@ -1,5 +1,5 @@
-site_name: Puro
-site_url: https://puro.dev
+site_name: Puro2
+site_url: https://puro2.phntm.xyz
 nav:
     - Home:
       - index.md
@@ -7,7 +7,6 @@ nav:
       - reference/manual.md
       - reference/commands.md
       - reference/changelog.md
-    - 'pub.dev': https://pub.dev/packages/puro
 theme:
   name: material
   custom_dir: overrides
@@ -47,12 +46,9 @@ markdown_extensions:
       alternate_style: true
 extra:
   generator: false
-  analytics:
-    provider: google
-    property: G-245TJ8036B
   social:
-    - icon: fontawesome/solid/heart
-      link: https://tst.sh
-repo_url: https://github.com/pingbird/puro
+    - icon: fontawesome/brands/github
+      link: https://github.com/phntmxyz/puro2
+repo_url: https://github.com/phntmxyz/puro2
 extra_css:
   - stylesheets/extra.css

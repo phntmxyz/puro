@@ -1,3 +1,10 @@
+## Unreleased
+
+* Renamed the fork to Puro2: the executable is now `puro2`, and `install-puro`, `upgrade-puro` and `uninstall-puro`
+  became `install-puro2`, `upgrade-puro2` and `uninstall-puro2` (the old names still work as aliases)
+* Updates are downloaded from GitHub Releases at https://github.com/phntmxyz/puro2/releases
+* Removed installing and upgrading through `dart pub global` and the `master` build channel
+
 ## 1.5.0
 
 * Fixed several major bugs

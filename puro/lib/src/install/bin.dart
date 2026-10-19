@@ -71,13 +71,13 @@ Future<void> _promoteStandalone({required Scope scope}) async {
   if (!currentExecutableFile.existsSync()) {
     throw CommandError.list([
       CommandMessage(
-        'Failed to install puro because the executable `${currentExecutableFile.path}` is missing',
+        'Failed to install puro2 because the executable `${currentExecutableFile.path}` is missing',
       ),
       if (Platform.isWindows)
         CommandMessage(
           'The most likely culprit is Windows Defender, to make an exception, '
           'go to Windows Security > Protection History > Click the most recent '
-          'item > Make sure it says puro.exe > Allow on device',
+          'item > Make sure it says puro2.exe > Allow on device',
           type: CompletionType.info,
         ),
     ]);
@@ -113,21 +113,17 @@ Future<void> _installTrampoline({
     case PuroInstallationType.development:
       final puroDartFile = version.packageRoot!
           .childDirectory('bin')
-          .childFile('puro.dart');
+          .childFile('puro2.dart');
       command = '"${Platform.executable}" "${puroDartFile.path}"';
       installLocation = puroDartFile.path;
       break;
-    case PuroInstallationType.pub:
-      command = 'dart pub global run puro';
-      installLocation = 'pub';
-      break;
     default:
-      throw CommandError("Can't install puro: ${version.type.description}");
+      throw CommandError("Can't install puro2: ${version.type.description}");
   }
 
   final trampolineHeader = Platform.isWindows
-      ? '@echo off\nREM Puro installed at $installLocation'
-      : '#!/usr/bin/env bash\n# Puro installed at $installLocation';
+      ? '@echo off\nREM Puro2 installed at $installLocation'
+      : '#!/usr/bin/env bash\n# Puro2 installed at $installLocation';
 
   final trampolineScript = Platform.isWindows
       ? '$trampolineHeader\n$command %* & exit /B !ERRORLEVEL!'
@@ -165,8 +161,8 @@ Future<void> _installTrampoline({
       return;
     } else if (!force) {
       throw CommandError(
-        'A different version of puro is installed in `${config.puroRoot.path}`, '
-        'run `puro install-puro --force` to overwrite it or `--no-install` to '
+        'A different version of puro2 is installed in `${config.puroRoot.path}`, '
+        'run `puro2 install-puro2 --force` to overwrite it or `--no-install` to '
         'ignore this error.',
       );
     }
@@ -192,7 +188,7 @@ Future<void> _installShims({required Scope scope}) async {
             '@echo off\n'
             'SETLOCAL ENABLEDELAYEDEXPANSION\n'
             'FOR %%i IN ("%~dp0.") DO SET PURO_BIN=%%~fi\n'
-            '"%PURO_BIN%\\puro.exe" dart %* & exit /B !ERRORLEVEL!',
+            '"%PURO_BIN%\\puro2.exe" dart %* & exit /B !ERRORLEVEL!',
       );
       await writePassiveAtomic(
         scope: scope,
@@ -201,7 +197,7 @@ Future<void> _installShims({required Scope scope}) async {
             '@echo off\n'
             'SETLOCAL ENABLEDELAYEDEXPANSION\n'
             'FOR %%i IN ("%~dp0.") DO SET PURO_BIN=%%~fi\n'
-            '"%PURO_BIN%\\puro.exe" flutter %* & exit /B !ERRORLEVEL!',
+            '"%PURO_BIN%\\puro2.exe" flutter %* & exit /B !ERRORLEVEL!',
       );
     } else {
       await writePassiveAtomic(
@@ -210,7 +206,7 @@ Future<void> _installShims({required Scope scope}) async {
         content:
             '$bashShimHeader\n'
             'PURO_BIN="\$(cd "\${PROG_NAME%/*}" ; pwd -P)"\n'
-            '"\$PURO_BIN/puro" dart "\$@"',
+            '"\$PURO_BIN/puro2" dart "\$@"',
       );
       await writePassiveAtomic(
         scope: scope,
@@ -218,7 +214,7 @@ Future<void> _installShims({required Scope scope}) async {
         content:
             '$bashShimHeader\n'
             'PURO_BIN="\$(cd "\${PROG_NAME%/*}" ; pwd -P)"\n'
-            '"\$PURO_BIN/puro" flutter "\$@"',
+            '"\$PURO_BIN/puro2" flutter "\$@"',
       );
       await runProcess(scope, 'chmod', [
         '+x',

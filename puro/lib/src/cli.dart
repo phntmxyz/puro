@@ -42,7 +42,7 @@ void main(List<String> args) async {
   final isJson = puroArgs.contains('--json');
 
   final runner = PuroCommandRunner(
-    'puro',
+    'puro2',
     'A powerful tool for installing and upgrading Flutter versions',
     scope: scope,
     isJson: isJson,
@@ -91,7 +91,7 @@ void main(List<String> args) async {
     ..addOption(
       'root',
       help:
-          'Overrides the global puro root directory. (defaults to `~/.puro` or \$PURO_ROOT)',
+          'Overrides the global puro2 root directory. (defaults to `~/.puro` or \$PURO_ROOT)',
       valueHelp: 'dir',
       callback: runner.wrapCallback((dir) {
         runner.rootDirOverride = dir;
@@ -221,7 +221,7 @@ void main(List<String> args) async {
     ..addFlag('json', help: 'Output in JSON where possible', negatable: false)
     ..addFlag(
       'install',
-      help: 'Whether to attempt to install puro',
+      help: 'Whether to attempt to install puro2',
       callback: runner.wrapCallback((flag) {
         if (runner.results!.wasParsed('install')) {
           runner.shouldInstallOverride = runner.results!['install'] as bool;

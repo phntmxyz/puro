@@ -9,7 +9,7 @@ class CleanCommand extends PuroCommand {
 
   @override
   final description =
-      'Deletes Puro configuration files from the current project and restores IDE settings';
+      'Deletes Puro2 configuration files from the current project and restores IDE settings';
 
   @override
   bool get takesArguments => false;
@@ -18,6 +18,6 @@ class CleanCommand extends PuroCommand {
   Future<CommandResult> run() async {
     final config = PuroConfig.of(scope);
     await cleanWorkspace(scope: scope, projectConfig: config.project);
-    return BasicMessageResult('Removed puro from current project');
+    return BasicMessageResult('Removed puro2 from current project');
   }
 }
