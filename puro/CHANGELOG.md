@@ -2,13 +2,25 @@
 
 The first release of Puro2, phntm's fork of [Puro](https://github.com/pingbird/puro).
 
-### Coming from Puro 1.5.0
+### Switching from Puro
 
-- Install Puro2 once with the [install script](https://puro2.phntm.xyz).
-  `puro upgrade-puro` keeps installing the original Puro and never reaches Puro2.
-  Puro2 uses the same `~/.puro` folder, so your environments stay.
-- The executable is `puro2`, and `install-puro`, `upgrade-puro` and `uninstall-puro` are now `install-puro2`, `upgrade-puro2` and `uninstall-puro2`.
-  The old command names still work as aliases.
+Puro2 takes over an existing Puro installation in `~/.puro`.
+Your environments, the global default and the `.puro.json` of your projects carry over, and no Flutter version is downloaded again.
+`puro upgrade-puro` can't do the switch, it only ever installs the original Puro.
+
+1. Install Puro2 with the command for your platform from [puro2.phntm.xyz](https://puro2.phntm.xyz), on macOS and Linux:
+
+   ```bash
+   curl -o- https://puro2.phntm.xyz/install.sh | bash
+   ```
+
+   This puts `puro2` next to `puro` in `~/.puro/bin` and points the `flutter` and `dart` commands of every environment at `puro2`.
+2. Open a new terminal and run `puro2 ls`, which lists your existing environments.
+3. Delete the old executable with `rm ~/.puro/bin/puro`, on Windows `del %USERPROFILE%\.puro\bin\puro.exe`.
+   Environments that the old `puro` creates still call the original Puro.
+
+From then on, use `puro2` where you used `puro`.
+`install-puro`, `upgrade-puro` and `uninstall-puro` are now `install-puro2`, `upgrade-puro2` and `uninstall-puro2`, and `puro2` still accepts the old names.
 
 ### Updates
 
