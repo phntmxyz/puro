@@ -14,7 +14,6 @@ The first release of Puro2, phntm's fork of [Puro](https://github.com/pingbird/p
 
 - `puro2 upgrade-puro2` downloads new versions from [GitHub Releases](https://github.com/phntmxyz/puro2/releases)
 - GitHub Releases is the only way to get Puro2, `dart pub global activate` and the `master` build channel are gone
-- arm64 Linux gets its own native build
 
 ## 1.5.0
 

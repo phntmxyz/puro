@@ -40,11 +40,7 @@ if [ "$OS" = 'Darwin' ]; then
     DOWNLOAD_URL="$RELEASES_URL/puro2-darwin-x64"
   fi
 elif [ "$OS" = 'Linux' ]; then
-  if [ "$ARCH" = 'aarch64' ] || [ "$ARCH" = 'arm64' ]; then
-    DOWNLOAD_URL="$RELEASES_URL/puro2-linux-arm64"
-  else
-    DOWNLOAD_URL="$RELEASES_URL/puro2-linux-x64"
-  fi
+  DOWNLOAD_URL="$RELEASES_URL/puro2-linux-x64"
 else
   >&2 echo "Error: Unknown OS: $OS"
   $ret 1

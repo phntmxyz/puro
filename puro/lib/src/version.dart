@@ -209,7 +209,6 @@ class PuroVersion {
 enum PuroBuildTarget {
   windowsX64('windows-x64', '.exe', '.bat'),
   linuxX64('linux-x64', '', ''),
-  linuxArm64('linux-arm64', '', ''),
   macosX64('darwin-x64', '', ''),
   macosArm64('darwin-arm64', '', '');
 
@@ -221,8 +220,6 @@ enum PuroBuildTarget {
         return PuroBuildTarget.windowsX64;
       case 'linux-x64':
         return PuroBuildTarget.linuxX64;
-      case 'linux-arm64':
-        return PuroBuildTarget.linuxArm64;
       case 'darwin-x64':
         return PuroBuildTarget.macosX64;
       case 'darwin-arm64':
@@ -246,12 +243,6 @@ enum PuroBuildTarget {
     if (Platform.isWindows) {
       return PuroBuildTarget.windowsX64;
     } else if (Platform.isLinux) {
-      final result = Process.runSync('uname', ['-m']);
-      final machine = (result.stdout as String).trim();
-      if (result.exitCode == 0 &&
-          (machine == 'aarch64' || machine == 'arm64')) {
-        return PuroBuildTarget.linuxArm64;
-      }
       return PuroBuildTarget.linuxX64;
     } else if (Platform.isMacOS) {
       final result = Process.runSync('uname', ['-m']);
