@@ -72,7 +72,9 @@ jobs:
         with:
           sdk: 3.10.0
       - run: dart pub get
-      - run: dart compile exe bin/puro2.dart -o "dist/$ASSET" "--define=puro_version=$VERSION"
+      - run: |
+          mkdir -p dist
+          dart compile exe bin/puro2.dart -o "dist/$ASSET" "--define=puro_version=$VERSION"
       - name: Check the binary's version and target
         run: |
           reported="$("dist/$ASSET" version --plain --no-update-check)"
