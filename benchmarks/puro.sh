@@ -3,16 +3,16 @@ set -e
 
 start_time=$(date +%s.%3N)
 
-curl -o- https://puro.dev/install.sh | PURO_VERSION="master" bash
+curl -o- https://puro2.phntm.xyz/install.sh | bash
 export PATH="$PATH:$HOME/.puro/bin"
 
 install_time=$(date +%s.%3N)
 
-puro --no-progress -v create example 3.3.5
+puro2 --no-progress -v create example 3.3.5
 
 create_time=$(date +%s.%3N)
 
-puro --no-progress -v -e example flutter --version
+puro2 --no-progress -v -e example flutter --version
 
 end_time=$(date +%s.%3N)
 

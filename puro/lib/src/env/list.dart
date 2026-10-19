@@ -60,7 +60,7 @@ class ListEnvironmentResult extends CommandResult {
   CommandMessage get message {
     return CommandMessage.format((format) {
       if (results.isEmpty) {
-        return 'No environments, use `puro create` to create one';
+        return 'No environments, use `puro2 create` to create one';
       }
       final lines = <List<String>>[];
 
@@ -112,7 +112,7 @@ class ListEnvironmentResult extends CommandResult {
           ...lines[i].skip(1),
         ],
         '',
-        'Use `puro create <name>` to create an environment, or `puro use <name>` to switch',
+        'Use `puro2 create <name>` to create an environment, or `puro2 use <name>` to switch',
       ].join('\n');
     }, type: CompletionType.info);
   }

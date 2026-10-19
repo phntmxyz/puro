@@ -34,13 +34,13 @@ class FlutterCommand extends PuroCommand {
     if (nonOptionArgs.isNotEmpty) {
       if (nonOptionArgs.first == 'upgrade') {
         runner.addMessage(
-          'Using puro to upgrade flutter',
+          'Using puro2 to upgrade flutter',
           type: CompletionType.info,
         );
         return (await runner.run(['upgrade', environment.name]))!;
       } else if (nonOptionArgs.first == 'channel' && nonOptionArgs.length > 1) {
         runner.addMessage(
-          'Using puro to switch flutter channel',
+          'Using puro2 to switch flutter channel',
           type: CompletionType.info,
         );
         return (await runner.run(['upgrade', unwrapArguments(exactly: 2)[1]]))!;

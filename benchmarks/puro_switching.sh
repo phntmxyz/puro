@@ -1,20 +1,20 @@
 #!/bin/bash
 set -e
 
-curl -o- https://puro.dev/install.sh | PURO_VERSION="master" bash
+curl -o- https://puro2.phntm.xyz/install.sh | bash
 export PATH="$PATH:$HOME/.puro/bin"
 
-puro --no-progress -v create example 3.3.4
-puro --no-progress -v rm example
+puro2 --no-progress -v create example 3.3.4
+puro2 --no-progress -v rm example
 
 start_time=$(date +%s.%3N)
 start_network=$(cat /proc/net/dev | perl -nle 'm/eth0: *([^ ]*)/; print $1' | tr -d '[:space:]')
 
-puro --no-progress -v create example2 3.3.5
+puro2 --no-progress -v create example2 3.3.5
 
 create_time=$(date +%s.%3N)
 
-puro --no-progress -v -e example2 flutter --version
+puro2 --no-progress -v -e example2 flutter --version
 
 end_time=$(date +%s.%3N)
 

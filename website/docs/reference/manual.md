@@ -4,7 +4,7 @@
 
 ## Introduction
 
-Puro is a powerful tool for installing and upgrading [Flutter](https://flutter.dev/) versions, it is essential for
+Puro2 is a powerful tool for installing and upgrading [Flutter](https://flutter.dev/) versions, it is essential for
 developers that work on multiple projects or have slower internet.
 
 ### *Why do we need another version manager?*
@@ -13,45 +13,45 @@ Flutter is typically installed by cloning the flutter/flutter repository, checki
 the `bin/flutter` shell script download pre-built engine binaries. This workflow is great for people working on the
 framework, but regular app developers end up downloading hundreds of megabytes more data than necessary.
 
-Puro significantly improves this process by downloading both the framework code and engine in parallel, caching the
+Puro2 significantly improves this process by downloading both the framework code and engine in parallel, caching the
 engine, and caching the git history. These optimizations result in a 20% faster initial setup (including installing
-Puro itself) and 50-95% faster upgrades.
+Puro2 itself) and 50-95% faster upgrades.
 
 ### Installation
 
-Puro is distributed as a precompiled executable (you do not need Dart installed), see the quick installation
-instructions at [https://puro.dev/](https://puro.dev/)
+Puro2 is distributed as a precompiled executable (you do not need Dart installed), see the quick installation
+instructions at [https://puro2.phntm.xyz/](https://puro2.phntm.xyz/)
 
-When you install Puro, it places itself in `~/.puro` (`%userprofile%\.puro` on Windows) including all caches, git
+When you install Puro2, it places itself in `~/.puro` (`%userprofile%\.puro` on Windows) including all caches, git
 repos, engine builds, configuration, etc.
 
-Puro will automatically add Flutter and itself to the PATH, warning you if there are existing Dart or Flutter
-installations that could interfere. A standalone version is also available if you don't want Puro messing with your
+Puro2 will automatically add Flutter and itself to the PATH, warning you if there are existing Dart or Flutter
+installations that could interfere. A standalone version is also available if you don't want Puro2 messing with your
 profile.
 
-At most once a day, the tool will automatically check for updates and prompt you to run `puro upgrade-puro` if one is
+At most once a day, the tool will automatically check for updates and prompt you to run `puro2 upgrade-puro2` if one is
 available, this can be disabled by adding `enableUpdateCheck: false` to `~/.puro/prefs.json`.
 
 ## Environments
 
 ### Listing environments
 
-Puro comes with three environments by default:
+Puro2 comes with three environments by default:
 
 ```
-$> puro ls
+$> puro2 ls
 [i] Environments:
     * stable (not installed)
       beta   (not installed)
       master (not installed)
 
-    Use `puro create <name>` to create an environment, or `puro use <name>` to switch
+    Use `puro2 create <name>` to create an environment, or `puro2 use <name>` to switch
 ```
 
-The asterisk next to `stable` tells us it's the global default, we can invoke it with the `puro flutter` command:
+The asterisk next to `stable` tells us it's the global default, we can invoke it with the `puro2 flutter` command:
 
 ```
-$> puro flutter --version
+$> puro2 flutter --version
 Flutter 3.7.0 • channel stable • https://github.com/flutter/flutter.git
 Framework • revision b06b8b2710 (4 days ago) • 2023-01-23 16:55:55 -0800
 Engine • revision b24591ed32
@@ -62,10 +62,10 @@ Running that command automatically installed the default environment and invoked
 
 ### Switching the default
 
-We can switch the default with `puro use -g`:
+We can switch the default with `puro2 use -g`:
 
 ```
-$> puro use -g beta
+$> puro2 use -g beta
 [✓] Set global default environment to `beta`
 ```
 
@@ -80,10 +80,10 @@ Engine • revision 45c5586f2a
 Tools • Dart 2.19.0 (build 2.19.0-444.6.beta) • DevTools 2.20.1
 ```
 
-Running `puro ls` again shows the versions we installed and the new default:
+Running `puro2 ls` again shows the versions we installed and the new default:
 
 ```
-$> puro ls               
+$> puro2 ls               
 [i] Environments:
       stable (stable / 3.7.0 / b06b8b2710)
     * beta   (beta / 3.7.0-1.5.pre / 099b3f4bf1)
@@ -92,14 +92,14 @@ $> puro ls
 
 ### Switching specific projects
 
-The `puro use` command switches the environment of the current project:
+The `puro2 use` command switches the environment of the current project:
 
 ```
-$> puro use beta
+$> puro2 use beta
 [✓] Switched to environment `beta`
 ```
 
-You may notice this command creates a `.puro.json`, this file tells Puro which environment to use, and is automatically
+You may notice this command creates a `.puro.json`, this file tells Puro2 which environment to use, and is automatically
 gitignored:
 
 ```json
@@ -108,13 +108,13 @@ gitignored:
 }
 ```
 
-Puro will detect VSCode and Android Studio (IntelliJ) configuration files and adjust them to use the right version of
+Puro2 will detect VSCode and Android Studio (IntelliJ) configuration files and adjust them to use the right version of
 Dart and Flutter, you can manually control this behavior with `--intellij --vscode` or `--no-intellij --no-vscode`.
 
 To ignore the global and project defaults, you can pass `-e <name>` to most commands:
 
 ```
-$> puro -e stable flutter --version
+$> puro2 -e stable flutter --version
 Flutter 3.7.0 • channel stable • https://github.com/flutter/flutter.git
 Framework • revision b06b8b2710 (4 days ago) • 2023-01-23 16:55:55 -0800
 Engine • revision b24591ed32
@@ -123,10 +123,10 @@ Tools • Dart 2.19.0 • DevTools 2.20.1
 
 ### Finding versions
 
-The `puro releases` command prints recent releases on the stable and beta channels:
+The `puro2 releases` command prints recent releases on the stable and beta channels:
 
 ```
-$> puro releases
+$> puro2 releases
 [i] Latest stable releases:
     Flutter 3.7.0          | 3d  | b06b8b2710 | Dart 2.19.0
     Flutter 3.3.10         | 1mo | 135454af32 | Dart 2.18.6
@@ -157,12 +157,12 @@ Pass it `--all` to show all releases unfiltered.
 
 ### Creation
 
-The `puro create` command is used to create new environments.
+The `puro2 create` command is used to create new environments.
 
-If you add a release channel, puro will query the latest version on that channel and download it:
+If you add a release channel, puro2 will query the latest version on that channel and download it:
 
 ```
-$> puro create my_env stable       
+$> puro2 create my_env stable       
 [✓] Created new environment at `/home/ping/.puro/envs/my_env/flutter`
 ```
 
@@ -171,25 +171,25 @@ You can also create one from a version, commit, or branch like `3.3.6`, `d9111f6
 Forks are supported with the `--fork` option:
 
 ```
-$> puro create my_env --fork git@github.com:pingbird/flutter.git
+$> puro2 create my_env --fork git@github.com:your-username/flutter.git
 [✓] Created new environment at `/home/ping/.puro/envs/my_env/flutter`
 ```
 
 ### Deletion
 
-The `puro rm` command simply deletes environments:
+The `puro2 rm` command simply deletes environments:
 
 ```
-$> puro rm my_env                                                 
+$> puro2 rm my_env                                                 
 [✓] Deleted environment `my_env`
 ```
 
 Note that this does not delete any cached data that this environment depends on, this is why re-creating environments
 after deletion usually takes less than a second.
 
-We can manually delete unused caches with the `puro gc` command:
+We can manually delete unused caches with the `puro2 gc` command:
 
 ```
-$> puro gc                                                        
+$> puro2 gc                                                        
 [✓] Cleaned up caches and reclaimed 2.7GB
 ```

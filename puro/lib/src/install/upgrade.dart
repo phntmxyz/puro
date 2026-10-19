@@ -24,13 +24,10 @@ Future<int> upgradePuro({
   await downloadFile(
     scope: scope,
     url: config.puroBuildsUrl.append(
-      path:
-          '$targetVersion/'
-          '${buildTarget.name}/'
-          '${buildTarget.executableName}',
+      path: 'download/$targetVersion/${buildTarget.releaseAssetName}',
     ),
     file: tempFile,
-    description: 'Downloading puro $targetVersion',
+    description: 'Downloading puro2 $targetVersion',
   );
   if (!Platform.isWindows) {
     await runProcess(scope, 'chmod', ['+x', '--', tempFile.path]);
@@ -44,7 +41,7 @@ Future<int> upgradePuro({
         if (terminal.enableColor) '--color',
         if (terminal.enableStatus) '--progress',
         '--log-level=${log.level?.index ?? 0}',
-        'install-puro',
+        'install-puro2',
         if (path != null)
           if (path) '--path' else '--no-path',
       ]);

@@ -8,7 +8,6 @@ import 'package:file/file.dart';
 import 'package:file/local.dart';
 import 'package:path/path.dart' as path;
 import 'package:pub_semver/pub_semver.dart';
-import 'package:yaml/yaml.dart';
 
 import 'command.dart';
 import 'command_result.dart';
@@ -24,10 +23,9 @@ import 'terminal.dart';
 const _puroVersionDefine = String.fromEnvironment('puro_version');
 
 enum PuroInstallationType {
-  distribution('Puro is installed normally'),
-  standalone('Puro is a standalone executable'),
-  development('Puro is a development version'),
-  pub('Puro was installed with pub'),
+  distribution('Puro2 is installed normally'),
+  standalone('Puro2 is a standalone executable'),
+  development('Puro2 is a development version'),
   unknown('Could not determine installation method');
 
   const PuroInstallationType(this.description);
@@ -81,7 +79,7 @@ class PuroVersion {
       final packages = packageData['packages'] as List<dynamic>;
       final puroPackage = packages
           .cast<Map<String, dynamic>>()
-          .firstWhereOrNull((e) => e['name'] == 'puro');
+          .firstWhereOrNull((e) => e['name'] == 'puro2');
       if (puroPackage == null) {
         return null;
       }
@@ -117,7 +115,7 @@ class PuroVersion {
           scriptPath,
           path.join(path.current, target.executableName),
         ) ||
-        path.equals(scriptPath, path.join(path.current, 'puro')) ||
+        path.equals(scriptPath, path.join(path.current, 'puro2')) ||
         config.fileSystem
             .file(executablePath)
             .parent
@@ -141,30 +139,10 @@ class PuroVersion {
     var packageRoot = await _getRootFromPackageConfig(scope: scope);
 
     if (!scriptIsExecutable && packageRoot == null) {
-      final pubInstallBinDir = scriptFile.parent;
-      final pubInstallPackageDir = pubInstallBinDir.parent;
-      final pubInstallPubspecLockFile = pubInstallPackageDir.childFile(
-        'pubspec.lock',
-      );
-      final pubInstallPubspecYamlFile = pubInstallPackageDir.childFile(
-        'pubspec.yaml',
-      );
-      log.d('pubInstallBinDir: ${pubInstallBinDir.path}');
-      log.d('pubInstallPackageDir: ${pubInstallPackageDir.path}');
-      if (pubInstallBinDir.basename == 'bin' &&
-          pubInstallPackageDir.basename == 'puro' &&
-          pubInstallPackageDir.parent.basename == 'global_packages' &&
-          pubInstallPubspecLockFile.existsSync() &&
-          !pubInstallPubspecYamlFile.existsSync()) {
-        packageRoot = pubInstallPackageDir;
-      } else {
-        final segments = path.split(scriptPath);
-        final dartToolIndex = segments.indexOf('.dart_tool');
-        if (dartToolIndex != -1) {
-          packageRoot = _fs.directory(
-            path.joinAll(segments.take(dartToolIndex)),
-          );
-        }
+      final segments = path.split(scriptPath);
+      final dartToolIndex = segments.indexOf('.dart_tool');
+      if (dartToolIndex != -1) {
+        packageRoot = _fs.directory(path.joinAll(segments.take(dartToolIndex)));
       }
     }
 
@@ -175,7 +153,7 @@ class PuroVersion {
 
     var installationType = PuroInstallationType.unknown;
     File? puroExecutable;
-    if (scriptFile.basename == 'puro.dart' &&
+    if (scriptFile.basename == 'puro2.dart' &&
         scriptFile.parent.basename == 'bin' &&
         scriptFile.parent.parent.parent.childDirectory('.git').existsSync()) {
       installationType = PuroInstallationType.development;
@@ -183,9 +161,7 @@ class PuroVersion {
     } else if (scriptExtension == '.snapshot' && packageRoot != null) {
       final projectRootDir = packageRoot.parent;
       log.d('projectRootDir: ${projectRootDir.path}');
-      if (projectRootDir.basename == 'global_packages') {
-        installationType = PuroInstallationType.pub;
-      } else if (projectRootDir.childDirectory('.git').existsSync()) {
+      if (projectRootDir.childDirectory('.git').existsSync()) {
         installationType = PuroInstallationType.development;
       }
     } else if (scriptIsExecutable) {
@@ -213,19 +189,6 @@ class PuroVersion {
         );
         log.d('gitTagVersion: $gitTagVersion');
         version = gitTagVersion.toSemver();
-      } else if (installationType == PuroInstallationType.pub) {
-        final pubspecLockFile = packageRoot.childFile('pubspec.lock');
-        try {
-          final pubspecLock =
-              loadYaml(pubspecLockFile.readAsStringSync()) as YamlMap;
-          version = Version.parse(
-            pubspecLock['packages']['puro']['version'] as String,
-          );
-        } catch (exception, stackTrace) {
-          log.w(
-            'Error while parsing ${pubspecLockFile.path}\n$exception\n$stackTrace',
-          );
-        }
       }
     }
 
@@ -270,8 +233,9 @@ enum PuroBuildTarget {
   final String exeSuffix;
   final String scriptSuffix;
 
-  String get executableName => 'puro$exeSuffix';
-  String get trampolineName => 'puro$scriptSuffix';
+  String get executableName => 'puro2$exeSuffix';
+  String get trampolineName => 'puro2$scriptSuffix';
+  String get releaseAssetName => 'puro2-$name$exeSuffix';
   String get flutterName => 'flutter$scriptSuffix';
   String get dartName => 'dart$scriptSuffix';
 
@@ -372,7 +336,7 @@ Future<CommandMessage?> checkIfUpdateAvailable({
       },
     );
     return CommandMessage(
-      'A new version of Puro is available, run `puro upgrade-puro` to upgrade',
+      'A new version of Puro2 is available, run `puro2 upgrade-puro2` to upgrade',
       type: CompletionType.info,
     );
   } else if (shouldVersionCheck) {

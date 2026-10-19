@@ -68,7 +68,7 @@ Future<VisualStudio> ensureVisualStudioInstalled({required Scope scope}) async {
     // Messages for faulty installations.
     if (!vs.isAtLeastMinimumVersion) {
       throw CommandError(
-        'The latest version of Visual Studio that Puro can detect is ${vs.displayVersion}\n'
+        'The latest version of Visual Studio that Puro2 can detect is ${vs.displayVersion}\n'
         'Building flutter requires VS 2019 or later, download it at https://visualstudio.microsoft.com/downloads/\n'
         'During setup, select the "${vs.workloadDescription}" workload',
       );

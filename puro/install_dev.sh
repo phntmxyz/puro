@@ -1,4 +1,4 @@
-# Builds and installs puro from source, for development purposes.
+# Builds and installs puro2 from source, for development purposes.
 
 ./build.sh
-bin/puro install-puro --promote
+bin/puro2 install-puro2 --promote

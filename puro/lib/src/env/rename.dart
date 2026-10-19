@@ -30,7 +30,7 @@ Future<void> renameEnvironment({
     throw CommandError('Environment `$name` is already named `$newName`');
   } else if (isPseudoEnvName(newName)) {
     throw CommandError(
-      'Environment `$newName` is already pinned to a version, use `puro create $newName` to create it',
+      'Environment `$newName` is already pinned to a version, use `puro2 create $newName` to create it',
     );
   }
 

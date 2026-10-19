@@ -16,7 +16,7 @@ class PuroInstallCommand extends PuroCommand {
   PuroInstallCommand() {
     argParser.addFlag(
       'force',
-      help: 'Overwrite an existing puro installation, if any',
+      help: 'Overwrite an existing puro2 installation, if any',
       negatable: false,
     );
     argParser.addFlag(
@@ -31,18 +31,21 @@ class PuroInstallCommand extends PuroCommand {
     argParser.addOption(
       'profile',
       help:
-          'Overrides the profile script puro appends to when updating the PATH',
+          'Overrides the profile script puro2 appends to when updating the PATH',
     );
   }
 
   @override
-  final name = 'install-puro';
+  final name = 'install-puro2';
+
+  @override
+  List<String> get aliases => ['install-puro'];
 
   @override
   bool get hidden => true;
 
   @override
-  final description = 'Finishes installation of the puro tool';
+  final description = 'Finishes installation of the puro2 tool';
 
   @override
   bool get allowUpdateCheck => false;
@@ -153,7 +156,7 @@ class PuroInstallCommand extends PuroCommand {
           'Updated PATH in the Windows registry, reopen your terminal for it to take effect',
         ),
       CommandMessage(
-        'Successfully installed Puro ${puroVersion.semver} to `${config.puroRoot.path}`',
+        'Successfully installed Puro2 ${puroVersion.semver} to `${config.puroRoot.path}`',
       ),
     ]);
   }

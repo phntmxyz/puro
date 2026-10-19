@@ -18,15 +18,18 @@ class PuroUninstallCommand extends PuroCommand {
     argParser.addOption(
       'profile',
       help:
-          'Overrides the profile script puro appends to when updating the PATH',
+          'Overrides the profile script puro2 appends to when updating the PATH',
     );
   }
 
   @override
-  final name = 'uninstall-puro';
+  final name = 'uninstall-puro2';
 
   @override
-  final description = 'Uninstalls puro from the system';
+  List<String> get aliases => ['uninstall-puro'];
+
+  @override
+  final description = 'Uninstalls puro2 from the system';
 
   @override
   bool get allowUpdateCheck => false;
@@ -39,7 +42,7 @@ class PuroUninstallCommand extends PuroCommand {
 
     if (puroVersion.type != PuroInstallationType.distribution && !force) {
       throw CommandError(
-        'Can only uninstall puro when installed normally, use --force to ignore\n'
+        'Can only uninstall puro2 when installed normally, use --force to ignore\n'
         '${puroVersion.type.description}',
       );
     }
@@ -63,18 +66,18 @@ class PuroUninstallCommand extends PuroCommand {
 
     if (profilePath == null && !updatedWindowsRegistry) {
       throw CommandError(
-        'Could not find Puro in your PATH, is it still installed?',
+        'Could not find Puro2 in your PATH, is it still installed?',
       );
     }
 
     return BasicMessageResult.list([
       if (profilePath != null)
         CommandMessage(
-          'Removed Puro from PATH in $profilePath, reopen your terminal for it to take effect',
+          'Removed Puro2 from PATH in $profilePath, reopen your terminal for it to take effect',
         ),
       if (updatedWindowsRegistry)
         CommandMessage(
-          'Removed Puro from PATH in the Windows registry, reopen your terminal for it to take effect',
+          'Removed Puro2 from PATH in the Windows registry, reopen your terminal for it to take effect',
         ),
       CommandMessage.format(
         (format) => Platform.isWindows

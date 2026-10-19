@@ -215,7 +215,7 @@ class PuroConfig {
       environmentOverride: environmentOverride,
       puroBuildsUrl: Uri.parse(
         (globalPrefs.hasPuroBuildsUrl() ? globalPrefs.puroBuildsUrl : null) ??
-            'https://puro.dev/builds',
+            'https://github.com/phntmxyz/puro2/releases',
       ),
       buildTarget: globalPrefs.hasPuroBuildTarget()
           ? PuroBuildTarget.fromString(globalPrefs.puroBuildTarget)
@@ -329,7 +329,9 @@ class PuroConfig {
   );
   late final File defaultEnvNameFile = puroRoot.childFile('default_env');
   late final Link defaultEnvLink = envsDir.childLink('default');
-  late final Uri puroLatestVersionUrl = puroBuildsUrl.append(path: 'latest');
+  late final Uri puroLatestVersionUrl = puroBuildsUrl.append(
+    path: 'latest/download/version',
+  );
   late final File puroLatestVersionFile = puroRoot.childFile('latest_version');
   late final Directory depotToolsDir = puroRoot.childDirectory('depot_tools');
 
@@ -741,7 +743,7 @@ class EngineConfig {
       throw CommandError(
         message ??
             'Environment `${rootDir.parent.basename}` does not have a custom engine, '
-                'use `puro engine prepare ${rootDir.parent.basename}` to create one',
+                'use `puro2 engine prepare ${rootDir.parent.basename}` to create one',
       );
     }
   }

@@ -18,7 +18,7 @@ class EnvCreateCommand extends PuroCommand {
     argParser.addOption(
       'fork',
       help:
-          'The origin to use when cloning the framework, puro will set the upstream automatically.',
+          'The origin to use when cloning the framework, puro2 will set the upstream automatically.',
       valueHelp: 'url',
     );
   }

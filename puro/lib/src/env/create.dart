@@ -237,8 +237,8 @@ Future<EnvCreateResult> createEnvironment({
     );
     if (commit != null) {
       throw CommandError(
-        'Environment `$envName` already exists, use `puro upgrade` to switch '
-        'version or `puro rm` before trying again',
+        'Environment `$envName` already exists, use `puro2 upgrade` to switch '
+        'version or `puro2 rm` before trying again',
       );
     }
   }

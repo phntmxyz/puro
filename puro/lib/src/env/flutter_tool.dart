@@ -101,7 +101,7 @@ Future<FlutterToolInfo> setUpFlutterTool({
   if (desiredEngineVersion == null) {
     throw CommandError(
       'Flutter installation corrupt: Could not find engine version at ${flutterConfig.engineVersionFile.path}\n'
-      'This can happen if `puro create` or `puro upgrade` was interrupted, try deleting the environment with `puro rm ${environment.name}`',
+      'This can happen if `puro2 create` or `puro2 upgrade` was interrupted, try deleting the environment with `puro2 rm ${environment.name}`',
     );
   }
 

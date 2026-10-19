@@ -1,4 +1,4 @@
-import 'package:puro/src/json_edit/editor.dart';
+import 'package:puro2/src/json_edit/editor.dart';
 import 'package:test/test.dart';
 
 String _indentString(String input, String indent) {
