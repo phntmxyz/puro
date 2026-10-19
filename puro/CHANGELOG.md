@@ -1,272 +1,283 @@
-## Unreleased
+## 2.0.0
 
-* Renamed the fork to Puro2: the executable is now `puro2`, and `install-puro`, `upgrade-puro` and `uninstall-puro`
-  became `install-puro2`, `upgrade-puro2` and `uninstall-puro2` (the old names still work as aliases)
-* Updates are downloaded from GitHub Releases at https://github.com/phntmxyz/puro2/releases
-* Removed installing and upgrading through `dart pub global` and the `master` build channel
+The first release of Puro2, phntm's fork of [Puro](https://github.com/pingbird/puro).
+
+### Coming from Puro 1.5.0
+
+- Install Puro2 once with the [install script](https://puro2.phntm.xyz).
+  `puro upgrade-puro` keeps installing the original Puro and never reaches Puro2.
+  Puro2 uses the same `~/.puro` folder, so your environments stay.
+- The executable is `puro2`, and `install-puro`, `upgrade-puro` and `uninstall-puro` are now `install-puro2`, `upgrade-puro2` and `uninstall-puro2`.
+  The old command names still work as aliases.
+
+### Updates
+
+- `puro2 upgrade-puro2` downloads new versions from [GitHub Releases](https://github.com/phntmxyz/puro2/releases)
+- GitHub Releases is the only way to get Puro2, `dart pub global activate` and the `master` build channel are gone
+- arm64 Linux gets its own native build
 
 ## 1.5.0
 
-* Fixed several major bugs
-* Added native arm64 mac build
+- Fixed several major bugs
+- Added native arm64 mac build
 
 ## 1.4.11
 
-* Bug fixes
-* Added `-d` flag to `puro ls` to show dart versions
+- Bug fixes
+- Added `-d` flag to `puro ls` to show dart versions
 
 ## 1.4.10
 
-* Bug fixes
+- Bug fixes
 
 ## 1.4.9
 
-* Bug fixes
+- Bug fixes
 
 ## 1.4.8
 
-* Bug fixes
-* Support for newer versions of Flutter that use the monorepo
+- Bug fixes
+- Support for newer versions of Flutter that use the monorepo
 
 ## 1.4.7
 
-* Bug fixes
+- Bug fixes
 
 ## 1.4.6
 
-* Bug fixes
+- Bug fixes
 
 ## 1.4.5
 
-* Bug fixes
+- Bug fixes
 
 ## 1.4.4
 
-* Bug fixes
+- Bug fixes
 
 ## 1.4.3
 
-* Absolutely nothing, the `+1` of the previous release broke CloudFront lol
+- Absolutely nothing, the `+1` of the previous release broke CloudFront lol
 
 ## 1.4.2+1
 
-* Bug fixes
+- Bug fixes
 
 ## 1.4.2
 
-* Bug fixes
-* Unused caches are now cleaned up automatically
+- Bug fixes
+- Unused caches are now cleaned up automatically
 
 ## 1.4.1
 
-* Bug fixes
-* Added the `build-shell` command to open a shell for building the Flutter engine manually
-* Added the `--projects`/`-p` flag to `ls` to show which projects are using each environment
+- Bug fixes
+- Added the `build-shell` command to open a shell for building the Flutter engine manually
+- Added the `--projects`/`-p` flag to `ls` to show which projects are using each environment
 
 ## 1.4.0
 
-* Bug fixes
-* Added support for versioned environments, you can now `puro use <version>` to switch to a specific version instead of
+- Bug fixes
+- Added support for versioned environments, you can now `puro use <version>` to switch to a specific version instead of
   creating one manually
 
 ## 1.3.8
 
-* Bug fixes
+- Bug fixes
 
 ## 1.3.7
 
-* Bug fixes
-* The `ls` command now has a separate indicator for the global default
-* The `create` and `upgrade` commands now recognize tags without an official release
+- Bug fixes
+- The `ls` command now has a separate indicator for the global default
+- The `create` and `upgrade` commands now recognize tags without an official release
 
 ## 1.3.6
 
-* Bug fixes
-* Now using 7zip to speed up engine unzipping on Windows
-* Added 'downgrade' as an alias for the 'upgrade' command
-* Added the `rename` command
-* The `rm` command now warns if known projects are using the environment
+- Bug fixes
+- Now using 7zip to speed up engine unzipping on Windows
+- Added 'downgrade' as an alias for the 'upgrade' command
+- Added the `rename` command
+- The `rm` command now warns if known projects are using the environment
 
 ## 1.3.5
 
-* Bug fixes
+- Bug fixes
 
 ## 1.3.4
 
-* Bug fixes
+- Bug fixes
 
 ## 1.3.3
 
-* Bug fixes
+- Bug fixes
 
 ## 1.3.2
 
-* Bug fixes
+- Bug fixes
 
 ## 1.3.1
 
-* Bug fixes
+- Bug fixes
 
 ## 1.3.0
 
-* Bug fixes
-* Added the `uninstall-puro` command
+- Bug fixes
+- Added the `uninstall-puro` command
 
 ## 1.2.6
 
-* Bug fixes
+- Bug fixes
 
 ## 1.2.5
 
-* Bug fixes
+- Bug fixes
 
 ## 1.2.4
 
-* Added the `--extra` option to to `eval`
-* Added the `repl` command
+- Added the `--extra` option to to `eval`
+- Added the `repl` command
 
 ## 1.2.3
 
-* Bug fixes
+- Bug fixes
 
 ## 1.2.2
 
-* Bug fixes
+- Bug fixes
 
 ## 1.2.1
 
-* Bug fixes
-* Added package support to eval
+- Bug fixes
+- Added package support to eval
 
 ## 1.2.0
 
-* Bug fixes
-* Added the `eval` command
+- Bug fixes
+- Added the `eval` command
 
 ## 1.1.13
 
-* Bug fixes
+- Bug fixes
 
 ## 1.1.12
 
-* Bug fixes
+- Bug fixes
 
 ## 1.1.11
 
-* Bug fixes
-* Added support for Google storage mirrors with FLUTTER_STORAGE_BASE_URL
-* Added the `engine prepare` command
-* Added the `engine build-env` command
+- Bug fixes
+- Added support for Google storage mirrors with FLUTTER_STORAGE_BASE_URL
+- Added the `engine prepare` command
+- Added the `engine build-env` command
 
 ## 1.1.10
 
-* Bug fixes
+- Bug fixes
 
 ## 1.1.9
 
-* Bug fixes
+- Bug fixes
 
 ## 1.1.8
 
-* Bug fixes
+- Bug fixes
 
 ## 1.1.7
 
-* Bug fixes
-* Added global configuration for bash/zsh profiles
-* Improved Windows installer
+- Bug fixes
+- Added global configuration for bash/zsh profiles
+- Improved Windows installer
 
 ## 1.1.6
 
-* Bug fixes
+- Bug fixes
 
 ## 1.1.5
 
-* Bug fixes
+- Bug fixes
 
 ## 1.1.4
 
-* Bug fixes
-* Improved installing puro inside symlinks and non-standard paths
+- Bug fixes
+- Improved installing puro inside symlinks and non-standard paths
 
 ## 1.1.3
 
-* Bug fixes
-* Added support for older versions of Flutter
+- Bug fixes
+- Added support for older versions of Flutter
 
 ## 1.1.2
 
-* Bug fixes
+- Bug fixes
 
 ## 1.1.1
 
-* Bug fixes
+- Bug fixes
 
 ## 1.1.0
 
-* Bug fixes
-* Added the `ls-versions` command
-* Added the `gc` command
+- Bug fixes
+- Added the `ls-versions` command
+- Added the `gc` command
 
 ## 1.0.1
 
-* Bug fixes
-* Better support for standalone and pub installs
+- Bug fixes
+- Better support for standalone and pub installs
 
 ## 1.0.0
 
-* Bug fixes
-* First stable release
+- Bug fixes
+- First stable release
 
 ## 0.6.1
 
-* Fix small issue with upgrades
+- Fix small issue with upgrades
 
 ## 0.6.0
 
-* Bug fixes
-* Added automatic update checks
-* Changed the default pub root to ~/.puro/shared/pub_cache
-* Upgrades now infer the branch
-* Added the `--fork` option to `puro create`
+- Bug fixes
+- Added automatic update checks
+- Changed the default pub root to ~/.puro/shared/pub_cache
+- Upgrades now infer the branch
+- Added the `--fork` option to `puro create`
 
 ## 0.5.0
 
-* Bug fixes
-* Added the `pub` command
-* Added the `upgrade-puro` command
-* Added dart/flutter shims to .puro/bin
-* Improved bash/zsh profile updating mechanism
-* Added the hidden `install-puro` command
-* Added PATH conflict detection to the `version` command
+- Bug fixes
+- Added the `pub` command
+- Added the `upgrade-puro` command
+- Added dart/flutter shims to .puro/bin
+- Improved bash/zsh profile updating mechanism
+- Added the hidden `install-puro` command
+- Added PATH conflict detection to the `version` command
 
 ## 0.4.1
 
-* Bug fixes
-* Added the `--global` flag to `puro use` to set the default environment
-* Implemented default environments
+- Bug fixes
+- Added the `--global` flag to `puro use` to set the default environment
+- Implemented default environments
 
 ## 0.4.0
 
-* Bug fixes
-* Performance improvements
-* Added the `upgrade` command for upgrading environments
-* Added the `--vscode` and `--intellij` flags to `puro use` which override whether their configs are generated
-* Added the `version` command
+- Bug fixes
+- Performance improvements
+- Added the `upgrade` command for upgrading environments
+- Added the `--vscode` and `--intellij` flags to `puro use` which override whether their configs are generated
+- Added the `version` command
 
 ## 0.3.0
 
-* Bug fixes
+- Bug fixes
 
 ## 0.2.0
 
-* Bug fixes
-* Performance improvements
+- Bug fixes
+- Performance improvements
 
 ## 0.1.0
 
-* Added progress bars
-* Added puro as an executable
+- Added progress bars
+- Added puro as an executable
 
 ## 0.0.1
 
