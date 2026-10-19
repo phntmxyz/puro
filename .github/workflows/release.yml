@@ -1,0 +1,137 @@
+name: Release
+
+# Builds puro2 for every target and attaches the binaries to a draft GitHub
+# release. Publishing the draft stays a manual step, and only a published
+# release is served by releases/latest, which upgrade-puro2 and install.sh use.
+#
+# The tag is the bare version (2.0.0, no "v"), because upgrade-puro2 downloads
+# from releases/download/<version>/.
+
+on:
+  push:
+    tags: ['[0-9]+.[0-9]+.[0-9]+*']
+  workflow_dispatch:
+  # Builds every target without releasing, so changes here are tested first.
+  pull_request:
+    paths: [.github/workflows/release.yml]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: version
+        run: |
+          version="$(sed -n 's/^version: *//p' puro/pubspec.yaml)"
+          if [ "$GITHUB_REF_TYPE" = tag ] && [ "$GITHUB_REF_NAME" != "$version" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match the pubspec version $version"
+            exit 1
+          fi
+          if ! grep -q "^## $version\$" puro/CHANGELOG.md; then
+            echo "::error::puro/CHANGELOG.md has no '## $version' section"
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+  build:
+    needs: version
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: linux-x64
+            os: ubuntu-latest
+          - target: darwin-arm64
+            os: macos-15
+          # GitHub retires its Intel macOS runners, this one is the last.
+          - target: darwin-x64
+            os: macos-15-intel
+          - target: windows-x64
+            os: windows-latest
+            ext: .exe
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+        working-directory: puro
+    env:
+      VERSION: ${{ needs.version.outputs.version }}
+      ASSET: puro2-${{ matrix.target }}${{ matrix.ext }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: 3.10.0
+      - run: dart pub get
+      - run: |
+          mkdir -p dist
+          dart compile exe bin/puro2.dart -o "dist/$ASSET" "--define=puro_version=$VERSION"
+      - name: Check the binary's version and target
+        run: |
+          reported="$("dist/$ASSET" version --plain --no-update-check)"
+          if [ "$reported" != "$VERSION" ]; then
+            echo "::error::$ASSET reports version '$reported', expected '$VERSION'"
+            exit 1
+          fi
+          "dist/$ASSET" version --no-update-check | tee version.txt
+          if ! grep -q "/${{ matrix.target }})" version.txt; then
+            echo "::error::$ASSET does not identify itself as ${{ matrix.target }}"
+            exit 1
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ASSET }}
+          path: puro/dist/${{ env.ASSET }}
+          if-no-files-found: error
+
+  release:
+    if: github.event_name != 'pull_request'
+    needs: [version, build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      VERSION: ${{ needs.version.outputs.version }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: puro2-*
+          path: dist
+          merge-multiple: true
+      - name: Assemble the release assets
+        run: |
+          cp LICENSE installer/install.sh dist/
+          printf '%s' "$VERSION" > dist/version
+          (cd dist && sha256sum -- * > SHA256SUMS)
+          cat dist/SHA256SUMS
+          awk -v heading="## $VERSION" '
+            $0 == heading { found = 1; next }
+            found && /^## / { exit }
+            found { print }
+          ' puro/CHANGELOG.md > notes.md
+      - name: Create or update the draft release
+        run: |
+          state="$(gh release list --limit 100 --json tagName,isDraft \
+            --jq ".[] | select(.tagName == \"$VERSION\") | .isDraft")"
+          if [ "$state" = false ]; then
+            echo "::error::Release $VERSION is already published"
+            exit 1
+          fi
+          if [ "$state" = true ]; then
+            gh release edit "$VERSION" --target "$GITHUB_SHA" --notes-file notes.md
+            gh release upload "$VERSION" dist/* --clobber
+          else
+            gh release create "$VERSION" dist/* --draft --target "$GITHUB_SHA" \
+              --title "$VERSION" --notes-file notes.md
+          fi
