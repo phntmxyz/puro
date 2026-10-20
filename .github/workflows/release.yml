@@ -125,6 +125,12 @@ jobs:
           state="$(gh release list --limit 100 --json tagName,isDraft \
             --jq ".[] | select(.tagName == \"$VERSION\") | .isDraft")"
           if [ "$state" = false ]; then
+            # Publishing the draft creates the tag, and that tag push runs
+            # this workflow again. The release is already complete then.
+            if [ "$GITHUB_EVENT_NAME" = push ]; then
+              echo "::notice::Release $VERSION is already published, nothing to do"
+              exit 0
+            fi
             echo "::error::Release $VERSION is already published"
             exit 1
           fi
