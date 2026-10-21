@@ -304,16 +304,42 @@ Future<FlutterToolInfo> setUpFlutterTool({
 }
 
 // https://github.com/pingbird/puro/issues/20
-// Some tools will break if `version` does not exist and flutter won't re-create
-// it if `flutter.version.json` exists in the cache. Not ideal but we just
-// delete it.
+/// Some tools will break if `version` does not exist and flutter won't re-create
+/// it if `flutter.version.json` exists in the cache. Write it ourselves.
 Future<void> fixLegacyVersionFile({
   required Scope scope,
   required EnvConfig environment,
 }) async {
-  if (!environment.flutter.legacyVersionFile.existsSync()) {
-    if (environment.flutter.cache.versionJsonFile.existsSync()) {
-      environment.flutter.cache.versionJsonFile.deleteSync();
-    }
+  final log = PuroLogger.of(scope);
+  final legacyVersionFile = environment.flutter.legacyVersionFile;
+  final versionJsonFile = environment.flutter.cache.versionJsonFile;
+  if (!versionJsonFile.existsSync()) {
+    return;
   }
+  String? frameworkVersion;
+  try {
+    final versionJson = jsonDecode(versionJsonFile.readAsStringSync());
+    if (versionJson is Map) {
+      final version = versionJson['frameworkVersion'];
+      if (version is String && version.isNotEmpty) {
+        frameworkVersion = version;
+      }
+    }
+  } catch (exception) {
+    log.d('Failed to parse `${versionJsonFile.path}`: $exception');
+  }
+  if (frameworkVersion == null) {
+    log.d(
+      'Deleting `${versionJsonFile.path}` because it has no framework version',
+    );
+    versionJsonFile.deleteSync();
+    return;
+  }
+  final contents = '$frameworkVersion\n';
+  if (legacyVersionFile.existsSync() &&
+      legacyVersionFile.readAsStringSync().trim() == frameworkVersion) {
+    return;
+  }
+  log.d('Writing legacy version file `${legacyVersionFile.path}`');
+  legacyVersionFile.writeAsStringSync(contents);
 }

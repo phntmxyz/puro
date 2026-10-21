@@ -115,6 +115,7 @@ Future<int> runDartCommand({
   log.v(
     'Setting up dart took ${clock.now().difference(start).inMilliseconds}ms',
   );
+  await ensureFlutterVersionJson(scope: scope, environment: environment);
   final nonOptionArgs = args.where((e) => !e.startsWith('-')).toList();
   if (nonOptionArgs.length >= 2 &&
       nonOptionArgs[0] == 'pub' &&
@@ -187,4 +188,29 @@ Future<void> Function() _setupExitSignals(ProcessStartMode mode) {
     await sigIntSub?.cancel();
     await sigTermSub?.cancel();
   };
+}
+
+/// Run the flutter tool once to generate flutter.version.json,
+/// this only happens after creating or upgrading an environment.
+Future<void> ensureFlutterVersionJson({
+  required Scope scope,
+  required EnvConfig environment,
+}) async {
+  if (environment.flutter.cache.versionJsonFile.existsSync()) {
+    return;
+  }
+  final log = PuroLogger.of(scope);
+  log.v(
+    '`flutter.version.json` is missing, generating it with the flutter tool',
+  );
+  await runOptional(scope, 'Generating flutter.version.json', () async {
+    await runFlutterCommand(
+      scope: scope,
+      environment: environment,
+      args: ['--version', '--machine'],
+      onStdout: (_) {},
+      onStderr: (_) {},
+    );
+  });
+  await fixLegacyVersionFile(scope: scope, environment: environment);
 }
