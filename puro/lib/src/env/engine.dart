@@ -268,7 +268,11 @@ Future<Version> getDartSDKVersion({
 }
 
 /// These files shouldn't be shared between flutter installs.
-const cacheBlacklist = {'flutter_version_check.stamp', 'flutter.version.json'};
+const cacheBlacklist = {
+  'flutter_version_check.stamp',
+  'flutter.version.json',
+  'flutter_web_sdk',
+};
 
 extension EnvPrefsModelExtension on PuroEnvPrefsModel {
   bool get isPatched => hasPatched() && patched;
@@ -316,6 +320,12 @@ Future<void> syncFlutterCache({
   for (final file in cacheDir.listSync()) {
     cacheDirFiles.add(file.basename);
     if (cacheBlacklist.contains(file.basename)) {
+      // A previous puro version may have symlinked this into the shared
+      // cache; remove the link so flutter re-creates it locally.
+      if (fs.isLinkSync(file.path)) {
+        log.d('Deleting blacklisted ${file.basename} symlink');
+        fs.link(file.path).deleteSync();
+      }
       continue;
     }
     final sharedFile = sharedCacheDir.childFile(file.basename);
