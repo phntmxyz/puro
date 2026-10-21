@@ -268,10 +268,16 @@ Future<Version> getDartSDKVersion({
 }
 
 /// These files shouldn't be shared between flutter installs.
+///
+/// `flutter_web_sdk` breaks web builds when it is a symlink
+/// (https://github.com/pingbird/puro/issues/156). Its stamp stays local too,
+/// otherwise a shared stamp from another engine version makes flutter skip
+/// downloading the matching web SDK.
 const cacheBlacklist = {
   'flutter_version_check.stamp',
   'flutter.version.json',
   'flutter_web_sdk',
+  'flutter_web_sdk.stamp',
 };
 
 extension EnvPrefsModelExtension on PuroEnvPrefsModel {
